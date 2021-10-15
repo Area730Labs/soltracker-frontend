@@ -10,12 +10,19 @@ import {
 } from "react-router-dom";
 import Header from './components/Header';
 import About from './components/About';
-
+import RarityCollections from './components/RarityCollections';
+import { useHistory } from "react-router-dom";
 
 
 import RarityCheck from './components/RarityCheck';
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+  }
+
+
   componentDidMount(){
     this.initReactGA();
   }
@@ -30,17 +37,18 @@ class App extends React.Component {
       <Router>
 
         <Header />
-
         
-          <Switch>
-            <Redirect exact from="/" to="/rarity/solyetis" />
 
-            <Route exact path="/rarity/solyetis" component={RarityCheck} />
+          <Switch>
+            <Redirect exact from="/" to="/rarity" />
+
+            <Route path="/rarity/">
+              <RarityCollections />
+            </Route>
 
             <Route path="/about">
               <About />
             </Route>
-
           </Switch>
 
 

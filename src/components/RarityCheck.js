@@ -15,7 +15,7 @@ class RarityCheck extends React.Component {
     }
 
     componentDidMount(){
-        ReactGA.pageview('/rarity/solyetis');
+        ReactGA.pageview('/rarity/' + this.props.collection_slug);
     }
 
     isNumeric(str) {
@@ -34,9 +34,8 @@ class RarityCheck extends React.Component {
             this.setState({isError: false, isLoading: true, isImageLoading: false, delayOver: false});
 
             try {
-                const response = await API.get(`check_yeti_rank/${this.state.inputValue}`);
+                const response = await API.get(`check_rank/${this.props.collection_id}/${this.state.inputValue}`);
 
-            
                 this.setState({
                     isLoading: false,
                     imageUrl: response.data.url,
@@ -53,7 +52,9 @@ class RarityCheck extends React.Component {
             } catch (err) {
                 this.setState({
                     isLoading: false,
-                    isError: true
+                    isError: true,
+                    isImageLoading: false,
+                    delayOver: true
                 });
             }
         } else {
@@ -67,14 +68,14 @@ class RarityCheck extends React.Component {
     
 
     render() {
-        const collectionName = "SolYetis";
+        const collectionName = this.props.collection_name;
 
         let isError = this.state.isError;
         let isImage = !isError && this.state.imageUrl.length > 0;
         let hasRank = !isError && this.state.rank > 0;
         let isLoading = this.state.isLoading;
 
-        const total_count = 8888;
+        const total_count = this.props.total_count;
 
         return (
             <main class="form-signin text-center p-0 pb-1">
@@ -83,20 +84,35 @@ class RarityCheck extends React.Component {
                 </div>
 
                 <div className="my-3 p-3 bg-body rounded shadow-sm">
-                    <img className="mb-4 rounded-circle" src="https://pbs.twimg.com/profile_images/1442221544223219714/RnqT9oPb_400x400.jpg" alt="" width="150" height="150">
+                    <img className="mb-2 rounded-circle" src={this.props.icon_url} alt="" width="150" height="150" />
 
-                    </img>
+                    {/* <div class="row">
+                        <div class="col-md-auto">
+                            <a href="">Website</a>
+                        </div>
+                        <div class="col-md-auto">
+                            <a href="">Twitter</a>
+                        </div>
+                        <div class="col-md-auto">
+                        <a href="">Discord</a>
+                        </div>
+                    </div> */}
+
+                    <div><a href={this.props.website} target="_blank">Website</a></div>
+                    <div><a href={'https://twitter.com/' + this.props.twitter} target="_blank">Twitter</a></div>
+                    <div className="mb-3"><a href={this.props.discord}  target="_blank">Discord</a></div>
+                    
                     {/* <h1 className="h3 mb-3 fw-normal">Check your NFT rarity!</h1> */}
 
                     {isError && (
-                    <div className="alert alert-danger smaller_alert" role="alert">
-                        Wrong number
-                    </div>
+                        <div className="alert alert-danger smaller_alert" role="alert">
+                            Wrong number
+                        </div>
                     )}
 
                     <div className="form-floating">
                         <input type="number" className="form-control" id="floatingInput" placeholder="1234" value={this.state.inputValue} onChange={this.handleChange}/>
-                        <label htmlFor="floatingInput">NFT number (e.g. 1554)</label>
+                        <label htmlFor="floatingInput">NFT number (e.g. 0554)</label>
                     </div>
 
                     <button type="button" className="w-100 btn btn-lg btn-primary mt-4" onClick={this.onCheckClicked} >Check</button>
