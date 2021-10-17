@@ -129,6 +129,38 @@
       animation-delay: 1s;
     }
 
+
+
+
+
+    .btn-outline-social {
+      color: #242627;
+      border-color: #a25bb8;
+    }
+    .btn-outline-social:hover {
+      color: #a25bb8;
+      background-color: #f8f8f8;
+    }
+    .btn-check:focus + .btn-outline-social, .btn-outline-social:focus {
+      box-shadow: 0 0 0 0.25rem rgba(108, 117, 125, 0.5);
+    }
+    .btn-check:checked + .btn-outline-social, .btn-check:active + .btn-outline-social, .btn-outline-social:active, .btn-outline-social.active, .btn-outline-social.dropdown-toggle.show {
+      color: #a25bb8;
+      background-color: #e9e8e8;
+      border-color: #6c757d;
+    }
+
+    .btn-outline-social:disabled, .btn-outline-social.disabled {
+      color: #6c757d;
+      background-color: transparent;
+    }
+
+    .btn:focus,.btn:active {
+      outline: none !important;
+      box-shadow: none;
+    }
+
+
   </style>
 
     <link href="https://getbootstrap.com/docs/5.1/examples/list-groups/list-groups.css" rel="stylesheet">

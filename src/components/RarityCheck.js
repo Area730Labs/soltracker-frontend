@@ -79,11 +79,11 @@ class RarityCheck extends React.Component {
 
         return (
             <main class="form-signin text-center p-0 pb-1">
-                <div className="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
+                <div className="d-flex align-items-center p-3 my-2 text-white bg-purple rounded shadow-sm">
                     <h3 className="h5 mb-0 text-white lh-1 ">{collectionName}</h3>
                 </div>
 
-                <div className="my-3 p-3 bg-body rounded shadow-sm">
+                <div className="my-1 p-3 bg-body rounded shadow-sm">
                     <img className="mb-2 rounded-circle" src={this.props.icon_url} alt="" width="150" height="150" />
 
                     {/* <div class="row">
@@ -97,10 +97,21 @@ class RarityCheck extends React.Component {
                         <a href="">Discord</a>
                         </div>
                     </div> */}
-
+{/* 
                     <div><a href={this.props.website} target="_blank">Website</a></div>
                     <div><a href={'https://twitter.com/' + this.props.twitter} target="_blank">Twitter</a></div>
-                    <div className="mb-3"><a href={this.props.discord}  target="_blank">Discord</a></div>
+                    <div className="mb-3"><a href={this.props.discord}  target="_blank">Discord</a></div> */}
+
+                    {/* <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" />
+                        <label class="form-check-label" for="flexSwitchCheckDefault">Find by rank</label>
+                    </div> */}
+
+                    <div class="btn-group btn-group-sm m-1 pb-2 pt-1" role="group" aria-label="Small button group">
+                        <button type="button" class="btn btn-outline-social"><img width="18px" src={require('../img/icons/website.png').default} /><span className="p-1" >Website</span></button>
+                        <button type="button" class="btn btn-outline-social"><img width="18px" src={require('../img/icons/twitter.png').default} /><span className="p-1" >Twitter</span></button>
+                        <button type="button" class="btn btn-outline-social"><img width="18px" src={require('../img/icons/discord.png').default} /><span className="p-1" >Discord</span></button>
+                    </div>
                     
                     {/* <h1 className="h3 mb-3 fw-normal">Check your NFT rarity!</h1> */}
 
