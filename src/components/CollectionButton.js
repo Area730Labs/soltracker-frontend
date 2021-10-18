@@ -1,11 +1,10 @@
 import React from 'react';
-import { useHistory } from "react-router-dom";
 import { withRouter } from 'react-router-dom';
 
 
 
 class CollectionButton extends React.Component {
-    
+
     constructor(props) {
         super(props);
         
@@ -26,10 +25,9 @@ class CollectionButton extends React.Component {
       return (
         <div onClick={this.handleClick}  >
             <input className="list-group-item-check" type="radio"  value=""  />
-            <label className="list-group-item py-3 d-flex" htmlFor ="listGroupCheckableRadios1">
-                {/* <img className="rounded-circle mr-3" src="https://pbs.twimg.com/profile_images/1445195706789203970/BnpYWNU-_400x400.jpg" width="50px" height="50px"/> */}
-                {name}
-                {/* <div className="d-block align-middle m-2">Skylines</div> */}
+            <label className="list-group-item py-2 d-flex align-middle" htmlFor ="listGroupCheckableRadios1">
+                <img className="rounded-circle mr-4" src={this.props.url} width="50px" height="50px"/>
+                <span className="d-block align-middle m-2 lh-35 h5 pl-2">{name}</span>
             </label>
         </div>
       );

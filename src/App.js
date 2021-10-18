@@ -11,7 +11,7 @@ import {
 import Header from './components/Header';
 import About from './components/About';
 import RarityCollections from './components/RarityCollections';
-import { useHistory } from "react-router-dom";
+import Maintenance from './components/Maintenance';
 
 
 import RarityCheck from './components/RarityCheck';
@@ -33,7 +33,17 @@ class App extends React.Component {
 
   render(){
 
+    const maintenance = false;
+
+    if (maintenance){
+      return (
+        <Maintenance />
+      );
+    }
+
     return (
+
+  
       <Router>
 
         <Header />
@@ -43,6 +53,10 @@ class App extends React.Component {
             <Redirect exact from="/" to="/rarity" />
 
             <Route path="/rarity/">
+              <RarityCollections />
+            </Route>
+
+            <Route path="/c/">
               <RarityCollections />
             </Route>
 
