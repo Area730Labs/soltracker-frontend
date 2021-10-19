@@ -12,19 +12,26 @@ import Header from './components/Header';
 import About from './components/About';
 import RarityCollections from './components/RarityCollections';
 import Maintenance from './components/Maintenance';
-
-
-import RarityCheck from './components/RarityCheck';
+import API from './api';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {collections: []};
   }
 
 
-  componentDidMount(){
+  async componentDidMount(){
     this.initReactGA();
+
+    try {
+      const response = await API.get(`get_collections`);
+
+      this.setState({collections: response.data});
+    } catch (err) {
+      
+    }
   }
 
   initReactGA() {
@@ -32,7 +39,6 @@ class App extends React.Component {
   };
 
   render(){
-
     const maintenance = false;
 
     if (maintenance){
@@ -42,8 +48,6 @@ class App extends React.Component {
     }
 
     return (
-
-  
       <Router>
 
         <Header />
@@ -53,18 +57,17 @@ class App extends React.Component {
             <Redirect exact from="/" to="/rarity" />
 
             <Route path="/rarity/">
-              <RarityCollections />
+              <RarityCollections collections={this.state.collections}/>
             </Route>
 
             <Route path="/c/">
-              <RarityCollections />
+              <RarityCollections collections={this.state.collections}/>
             </Route>
 
             <Route path="/about">
               <About />
             </Route>
           </Switch>
-
 
       </Router>
     );

@@ -8,39 +8,77 @@ class RarityCheck extends React.Component {
     constructor(props) {
         super(props);
     
-        this.onCheckClicked = this.onCheckClicked.bind(this);
+        this.onCheckIdClicked = this.onCheckIdClicked.bind(this);
+        this.onCheckRankClicked = this.onCheckRankClicked.bind(this);
+
         this.handleChange = this.handleChange.bind(this);
+
+        this.changeToById = this.changeToById.bind(this);
+        this.changeToByRank = this.changeToByRank.bind(this);
     
-        this.state = {inputValue: '', isError: false, imageUrl: '', rank: 0, isLoading: false, isImageLoading: false, delayOver: true}
+        this.state = {
+            inputValue: '', 
+            isError: false, 
+            imageUrl: '', 
+            rank: 0, 
+            isLoading: false, 
+            isImageLoading: false, 
+            delayOver: true, 
+            byId: true, 
+            byRank: false,
+            nft_name: ''
+        }
     }
 
     componentDidMount(){
         ReactGA.pageview('/rarity/' + this.props.collection_slug);
     }
 
-    isNumeric(str) {
-        if (typeof str != "string") return false // we only process strings!  
-        return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
-                !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
-    }
-
     sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    async onCheckClicked(e){
-        if (this.state.inputValue && (this.state.inputValue.length) > 0 && this.isNumeric(this.state.inputValue))
+    changeToById(){
+        this.setState({
+            byId: true, 
+            byRank: false,
+            inputValue: '',
+            isImage: false,
+            rank: 0,
+            nft_name: '',
+            imageUrl: ''
+        })
+    }
+
+    changeToByRank(){
+        this.setState({
+            byId: false, 
+            byRank: true,
+            inputValue: '',
+            isImage: false,
+            rank: 0,
+            nft_name: '',
+            imageUrl: ''
+        })
+    }
+
+
+    // Find rank by nft id or name
+    async onCheckIdClicked(e){
+        if (this.state.inputValue && (this.state.inputValue.length) > 0)
         {
             this.setState({isError: false, isLoading: true, isImageLoading: false, delayOver: false});
 
             try {
-                const response = await API.get(`check_rank/${this.props.collection_id}/${this.state.inputValue}`);
+                const val = encodeURIComponent(this.state.inputValue.trim());
+                const response = await API.get(`check_rank/${this.props.collection_id}/${val}`);
 
                 this.setState({
                     isLoading: false,
                     imageUrl: response.data.url,
                     rank: response.data.rank,
-                    isImageLoading: true
+                    isImageLoading: true,
+                    nft_name: response.data.name
                 });
 
                 await this.sleep(1000);
@@ -62,6 +100,46 @@ class RarityCheck extends React.Component {
         }
     }
 
+    // Find nft by rank
+    async onCheckRankClicked(e){
+        const maxRank = this.props.total_count;
+
+        if (this.state.inputValue && (this.state.inputValue.length) > 0)
+        {
+            this.setState({isError: false, isLoading: true, isImageLoading: false, delayOver: false});
+
+            try {
+                const val = encodeURIComponent(this.state.inputValue.trim());
+                const response = await API.get(`find_by_rank/${this.props.collection_id}/${val}`);
+
+                this.setState({
+                    isLoading: false,
+                    imageUrl: response.data.url,
+                    rank: response.data.rank,
+                    isImageLoading: true,
+                    nft_name: response.data.name
+                });
+
+                await this.sleep(1000);
+
+                this.setState({delayOver: true})
+
+                window.scrollTo(0,document.body.scrollHeight);
+
+            } catch (err) {
+                this.setState({
+                    isLoading: false,
+                    isError: true,
+                    isImageLoading: false,
+                    delayOver: true
+                });
+            }
+        } else {
+            this.setState({isError: true});
+        }
+    }
+
+
     handleChange(e){
         this.setState({inputValue: e.target.value});
     }
@@ -73,6 +151,7 @@ class RarityCheck extends React.Component {
         let isError = this.state.isError;
         let isImage = !isError && this.state.imageUrl.length > 0;
         let hasRank = !isError && this.state.rank > 0;
+        let hasName = !isError && this.state.nft_name.length > 0;
         let isLoading = this.state.isLoading;
 
         const total_count = this.props.total_count;
@@ -89,6 +168,12 @@ class RarityCheck extends React.Component {
             part_2.push(markets[i])
         }
 
+        let inputPlaceholder = "Enter NFT number or name";
+
+        if (this.state.byRank){
+            inputPlaceholder = "Enter NFT rank";
+        }
+
 
         return (
             <main class="form-signin text-center p-0 pb-1">
@@ -98,9 +183,10 @@ class RarityCheck extends React.Component {
 
                 <div className="my-1 px-3 py-2 bg-body rounded shadow-sm">
 
+                    {/* ========     ICON     ========= */}
                     <img className="mb-2 rounded-circle" src={this.props.icon_url} alt="" width="150" height="150" />
 
-
+                    {/* ======== SOCIAL LINKS  ======== */}
                     <div className="btn-group btn-group-sm pb-2 w-100" role="group" aria-label="Small button group">
                         <button type="button" className="btn btn-outline-social" onClick={()=> window.open(this.props.website, "_blank")}><img width="18px" src={require('../img/icons/website.png').default} /><span className="p-1" >Website</span></button>
                         <button type="button" className="btn btn-outline-social" onClick={()=> window.open('https://twitter.com/' + this.props.twitter, "_blank")}><img width="18px" src={require('../img/icons/twitter.png').default} /><span className="p-1" >Twitter</span></button>
@@ -108,21 +194,14 @@ class RarityCheck extends React.Component {
                     </div>
 
 
-
-                   
-                    {/* <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" />
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Find by rank</label>
-                    </div> */}
-
-                    
-
+                    {/* ======== MARKETS LINE 1 ======== */}
                     <div className="btn-group btn-group-sm text-center w-100 d-block mt-2 mb-1" >
                         {part_1.map((market, i) => {
                             return (<span className="pr-1 px-1"><img width="22px" src={require('../img/icons/tag.png').default} /><a href={market.url} target="_blank" className="link-primary">{market.name}</a></span>)
                         })}
                     </div>
 
+                    {/* ======== MARKETS LINE 2 ======== */}
                     {part_2.length > 0 && (
                         <div className="btn-group btn-group-sm text-center  w-100 d-block mb-1" >
                             {part_2.map((market, i) => {
@@ -131,47 +210,56 @@ class RarityCheck extends React.Component {
                         </div>
                     )}
 
-                    
-                    
-                    {/* <h1 className="h3 mb-3 fw-normal">Check your NFT rarity!</h1> */}
-
+                    {/* ========  SWITCH MODE  ======== */}
                     <div className="btn-group  btn-group-sm w-100 mt-2 mb-2" role="group" aria-label="Choose mode">
-                        <button type="button" className="btn btn-outline-primary active">By ID</button>
-                        <button type="button" className="btn btn-outline-primary">By Rank</button>
+                        <button type="button" className={`btn btn-outline-primary ${this.state.byId ? "active" : ""}`} onClick={this.changeToById}>By ID</button>
+                        <button type="button" className={`btn btn-outline-primary ${this.state.byRank ? "active" : ""}`} onClick={this.changeToByRank}>By Rank</button>
                     </div>
 
+                    {/* ========   ERROR MSG   ======== */}
                     {isError && (
                         <div className="alert alert-danger smaller_alert" role="alert">
                             Wrong number
                         </div>
                     )}
 
+                    {/* ========     INPUT     ======== */}
                     <div className="form-floating">
-                        <input type="number" className="form-control" id="floatingInput" placeholder="1234" value={this.state.inputValue} onChange={this.handleChange}/>
-                        <label htmlFor="floatingInput">NFT number (e.g. 0554)</label>
+                        <input className="form-control" id="floatingInput" placeholder="1234" value={this.state.inputValue} onChange={this.handleChange}/>
+                        <label htmlFor="floatingInput">{inputPlaceholder}</label>
                     </div>
 
-                    <button type="button" className="w-100 btn btn-lg btn-primary mt-2" onClick={this.onCheckClicked}>Check Rarity</button>
+                    {/* ======== FIND RANK BTN ======== */}
+                    {this.state.byId && (<button type="button" className="w-100 btn btn-lg btn-primary mt-2" onClick={this.onCheckIdClicked}>Check Rarity</button>)}
 
-                    {!isLoading && hasRank && this.state.delayOver && (
-                        <p className="mt-5 mb-3"><h4>Rank: <strong>{this.state.rank}/{total_count}</strong></h4></p>
+                    {/* ======== FIND NFT ID BTN ====== */}
+                    {this.state.byRank && (<button type="button" className="w-100 btn btn-lg btn-primary mt-2" onClick={this.onCheckRankClicked}>Find NFT</button>)}
+                    
+
+                    {/* ======== RANK LABEL ======== */}
+                    {this.state.byId && !isLoading && hasRank && this.state.delayOver && (
+                        <p className="mt-3 mb-3"><h4>Rank: <strong>{this.state.rank}/{total_count}</strong></h4></p>
                     )}
 
+                    {/* ======== NAME LABEL ======== */}
+                    {this.state.byRank && !isLoading && hasName && this.state.delayOver && (
+                        <p className="mt-3 mb-3"><h4><strong>{this.state.nft_name}</strong></h4></p>
+                    )}
+
+                    {/* ======== LOADING DOTS ======== */}
                     {(isLoading || this.state.isImageLoading || !this.state.delayOver) && (
                         <div className="w-100 form-floating d-flex justify-content-center p-3">
                             <div class="dot-typing"></div>
                         </div>
                     )}
 
-
+                    {/* ======== IMAGE ======== */}
                     {!isLoading && isImage && (
                         <img className="w-100" 
                             style={(!this.state.isImageLoading && this.state.delayOver) ? {} : {display: 'none'}}
                             src={this.state.imageUrl}
                             onLoad={() => this.setState({isImageLoading: false})}
                         />
-
-                        // <img className="w-100" src={this.state.imageUrl} />
                     )}
 
                 </div>
