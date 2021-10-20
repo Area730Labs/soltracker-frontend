@@ -12,6 +12,15 @@ class Header extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this.onCheckcheckActiveIdClicked = this.checkActive.bind(this);
+    }
+
+    checkActive(match, location){
+        //some additional logic to verify you are in the home URI
+        if(!location) return false;
+        const {pathname} = location;
+        return pathname === "/";
     }
 
     render() {
@@ -19,22 +28,24 @@ class Header extends React.Component {
 
       return (
         <div className="container">
-        <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-2 mb-2 border-bottom">
+        <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-1 mb-2 border-bottom">
             <a href="/" className="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-                <img className="bi me-2" src={require('../img/logo.png').default} width="40px" height="40px" />
+                <img className="bi me-2" src={require('../img/logo.png').default} width="30px" height="30px" />
                 <span className="fs-5"><strong>SOL Tracker</strong></span>
             </a>
     
             <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                <li><NavLink to="/" className="nav-link px-2 link-dark" activeClassName="link-secondary">Home</NavLink></li>
-                <li><NavLink to="/rarity/" className="nav-link px-2 link-dark" activeClassName="link-secondary">Rarity</NavLink></li>
-                <li><NavLink to="/about" className="nav-link px-2 link-dark" activeClassName="link-secondary">About</NavLink></li>
+                <li><NavLink to="/" className="nav-link px-2 link-dark py-0" isActive={this.checkActive} activeStyle={{fontWeight: "bold", textDecoration: "underline"}}>Home</NavLink></li>
+                <li><NavLink to="/rarity" className="nav-link px-2 link-dark py-0" activeStyle={{fontWeight: "bold", textDecoration: "underline"}}>Rarity</NavLink></li>
+                <li><NavLink to="/upcoming-mints" className="nav-link px-2 link-dark text-danger py-0" activeStyle={{fontWeight: "bold", textDecoration: "underline"}}>🔥Upcoming mints🔥</NavLink></li>
+                <li><NavLink to="/about" className="nav-link px-2 link-dark py-0" activeStyle={{fontWeight: "bold", textDecoration: "underline"}}>About</NavLink></li>
             </ul>
     
-            <div className="col-md-3 text-end">
-                <a href="https://twitter.com/sol_tracker" target="_blank">
+            <div className="col-md-3 text-end twitter-align">
+                {/* <a href="https://twitter.com/sol_tracker" target="_blank">
                     <img src={require('../img/twitter.png').default} width="30px"/>
-                </a>
+                </a> */}
+                <a href="https://twitter.com/sol_tracker?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-size="large" data-show-screen-name="false" data-show-count="false">Follow @sol_tracker</a>
             {/* <button type="button" class="btn btn-outline-primary me-2">Login</button>
                 <button type="button" class="btn btn-primary">Sign-up</button> */}
             </div>

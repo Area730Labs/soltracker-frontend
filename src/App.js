@@ -13,6 +13,8 @@ import About from './components/About';
 import RarityCollections from './components/RarityCollections';
 import Maintenance from './components/Maintenance';
 import API from './api';
+import UpcomingMints from './components/UpcomingMints';
+import Faq from './components/Faq';
 
 class App extends React.Component {
   constructor(props) {
@@ -67,6 +69,15 @@ class App extends React.Component {
             <Route path="/about">
               <About />
             </Route>
+
+            <Route path="/upcoming-mints">
+              <UpcomingMints />
+            </Route>
+
+            <Route path="/faq">
+              <Faq />
+            </Route>
+
           </Switch>
 
       </Router>

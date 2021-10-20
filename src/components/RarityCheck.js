@@ -238,7 +238,10 @@ class RarityCheck extends React.Component {
 
                     {/* ======== RANK LABEL ======== */}
                     {this.state.byId && !isLoading && hasRank && this.state.delayOver && (
-                        <p className="mt-3 mb-3"><h4>Rank: <strong>{this.state.rank}/{total_count}</strong></h4></p>
+                        <p className="mt-3 mb-3"><span className="h4">Rank: <strong>{this.state.rank}/{total_count}</strong></span>
+                        {/* <button type="button" class="btn btn-warning">?</button> */}
+                        {/* <img className="info-btn-rank" src={require('../img/icons/info.png').default} width="20px"/> */}
+                        </p>
                     )}
 
                     {/* ======== NAME LABEL ======== */}
