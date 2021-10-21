@@ -31,6 +31,7 @@ class App extends React.Component {
       const response = await API.get(`get_collections`);
 
       this.setState({collections: response.data});
+
     } catch (err) {
       
     }
