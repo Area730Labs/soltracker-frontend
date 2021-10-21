@@ -9,13 +9,23 @@ import {
 } from "react-router-dom";
 import RarityCheck from './RarityCheck';
 import ReactGA from 'react-ga';
+import PropTypes from "prop-types";
+import { withRouter } from "react-router";
+
 
 class RarityCollections extends React.Component {
+
+    static propTypes = {
+        match: PropTypes.object.isRequired,
+        location: PropTypes.object.isRequired,
+        history: PropTypes.object.isRequired
+      };
+    
 
     constructor(props) {
         super(props);   
 
-        this.state = {query: '', elems: null, initialElems: null};
+        this.state = {query: ''};
 
         this.handleChange = this.handleChange.bind(this);
     }
@@ -23,58 +33,26 @@ class RarityCollections extends React.Component {
     handleChange(e){
         var query = e.target.value.trim().toLowerCase();
        
-        this.updateSearchQuest(query);
+        this.setState({query: query})
     }
 
-    static getDerivedStateFromProps(props, state) {
-        const varList = props.collections;
-
-        if (!varList){
-            // console.log("reseting vars, got empty array");
-            return {query: '', elems: null, initialElems: null};
+    filterCollections(collections, query) {
+        if (!query) {
+            return collections;
         }
-
-        if (!state.initialElems){
-            // console.log("initing vars for the first time");
-            return {elems: varList, initialElems: varList };
-        }
-
-        let difference = varList.filter(x => !state.initialElems.includes(x));
-        let newInitialItems = RarityCollections.mergeIntoArray(state.initialElems, difference);
-        let newElems = RarityCollections.mergeIntoArray(state.elems, difference);
-
-        return {elems: newElems, initialElems: newInitialItems };
+    
+        return collections.filter((collection) => {
+            const collectionName = collection.name.toLowerCase();
+            return collectionName.includes(query);
+        })
     }
 
-    updateSearchQuest(query) {
-        if (!this.state.initialElems){
-            return;
+    componentDidUpdate(prevProps) {
+        if (this.props.location !== prevProps.location) {
+          this.setState({query: ''})
         }
-
-        var newState = {query: query, elems: []}
-
-        if (query.length > 0){
-            newState.elems = this.state.initialElems.filter(item => item.name.toLowerCase().includes(query))
-        } else {
-            newState.elems = this.state.initialElems;
-        }
-
-        this.setState(newState);
-    }
-
-    static mergeIntoArray(arr1, arr2){
-        let merged = [];
-
-        for(let i=0; i<arr1.length; i++) {
-            merged.push({
-                ...arr1[i], 
-                ...(arr2.find((itmInner) => itmInner.name === arr1[i].name))}
-            );
-        }
-
-        return merged;
-    }
-
+      }
+    
 
     async componentDidMount(){
         ReactGA.pageview('/rarity');
@@ -82,6 +60,7 @@ class RarityCollections extends React.Component {
 
     render() {
         const collections = this.props.collections;
+        const filteredCollections = this.filterCollections(collections, this.state.query);
 
       return (
 
@@ -94,7 +73,7 @@ class RarityCollections extends React.Component {
                         <input type="text" className="form-control bg-light border-0" placeholder="Search" onChange={this.handleChange} value={this.state.query}   />
                     </div>
 
-                    {this.state.elems && this.state.elems.map((collection, i) => {
+                    {filteredCollections.map((collection, i) => {
                         return (
                             <CollectionButton name={collection.name} slug={collection.slug} id={collection.id} key={collection.slug} url={collection.icon_url} />
                         )
@@ -125,4 +104,4 @@ class RarityCollections extends React.Component {
 }
 
 
-export default RarityCollections;
+export default withRouter(RarityCollections);
