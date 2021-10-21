@@ -22,10 +22,10 @@ class Faq extends React.Component {
 
       return (
         <main className="container">
-            <div class="my-3 p-3 bg-body rounded shadow-sm">
-                <h6 class="border-bottom pb-2 mb-0">How we rank NFTs</h6>
-                <div class="d-flex text-muted pt-3">
-                    <p class="pb-3 mb-0 lh-sm border-bottom h6 mt-2 pb-4 text-black">
+            <div className="my-3 p-3 bg-body rounded shadow-sm">
+                <h6 className="border-bottom pb-2 mb-0">How we rank NFTs</h6>
+                <div className="d-flex text-muted pt-3">
+                    <p className="pb-3 mb-0 lh-sm border-bottom h6 mt-2 pb-4 text-black">
                         First, it is important to understand that any ranking is very subjective. There is no one proper formula and websites calculate ratings as they see fit.
                         <br /><br />
                         For example, if we take statistical rarity (e.g. Moonrank) - it calculates NFT's rarity by multiplying the rarities of each attribute. Unfortunately, this approach doesn't work properly for NFTs - truly rare ones often get ranked lower than multiple identical NFTs without really unique properties.

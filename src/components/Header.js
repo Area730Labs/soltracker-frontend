@@ -45,9 +45,9 @@ class Header extends React.Component {
                 {/* <a href="https://twitter.com/sol_tracker" target="_blank">
                     <img src={require('../img/twitter.png').default} width="30px"/>
                 </a> */}
-                <a href="https://twitter.com/sol_tracker?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-size="large" data-show-screen-name="false" data-show-count="false">Follow @sol_tracker</a>
-            {/* <button type="button" class="btn btn-outline-primary me-2">Login</button>
-                <button type="button" class="btn btn-primary">Sign-up</button> */}
+                <a href="https://twitter.com/sol_tracker?ref_src=twsrc%5Etfw" className="twitter-follow-button" data-size="large" data-show-screen-name="false" data-show-count="false">Follow @sol_tracker</a>
+            {/* <button type="button" className="btn btn-outline-primary me-2">Login</button>
+                <button type="button" className="btn btn-primary">Sign-up</button> */}
             </div>
         </header>
         </div>
