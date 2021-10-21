@@ -26,7 +26,8 @@ class RarityCheck extends React.Component {
             delayOver: true, 
             byId: true, 
             byRank: false,
-            nft_name: ''
+            nft_name: '',
+            traits: []
         }
     }
 
@@ -78,7 +79,8 @@ class RarityCheck extends React.Component {
                     imageUrl: response.data.url,
                     rank: response.data.rank,
                     isImageLoading: true,
-                    nft_name: response.data.name
+                    nft_name: response.data.name,
+                    traits: response.data.traits
                 });
 
                 await this.sleep(1000);
@@ -117,7 +119,8 @@ class RarityCheck extends React.Component {
                     imageUrl: response.data.url,
                     rank: response.data.rank,
                     isImageLoading: true,
-                    nft_name: response.data.name
+                    nft_name: response.data.name,
+                    traits: response.data.traits
                 });
 
                 await this.sleep(1000);
@@ -148,11 +151,19 @@ class RarityCheck extends React.Component {
     render() {
         const collectionName = this.props.collection_name;
 
-        let isError = this.state.isError;
-        let isImage = !isError && this.state.imageUrl.length > 0;
-        let hasRank = !isError && this.state.rank > 0;
-        let hasName = !isError && this.state.nft_name.length > 0;
-        let isLoading = this.state.isLoading;
+        // let isError = this.state.isError;
+        // let isImage = !isError && this.state.imageUrl.length > 0;
+        // let hasRank = !isError && this.state.rank > 0;
+        // let hasName = !isError && this.state.nft_name.length > 0;
+        // let isLoading = this.state.isLoading;
+        let imageUrl = this.state.imageUrl;
+
+        let isError = true;
+        let isImage = true;
+        let hasRank = true;
+        let hasName = true;
+        let isLoading = false;
+        // let imageUrl = 'https://64puygu2gtahymut4opt6lbwhiieidmcfuira65fleyat5rue2mq.arweave.net/9x9MGpo0wHwyk-OfPyw2OhBEDYItERB7pVkwCfY0Jpk/data.png';
 
         const total_count = this.props.total_count;
         const markets = this.props.markets;
@@ -260,10 +271,35 @@ class RarityCheck extends React.Component {
                     {!isLoading && isImage && (
                         <img className="w-100" 
                             style={(!this.state.isImageLoading && this.state.delayOver) ? {} : {display: 'none'}}
-                            src={this.state.imageUrl}
+                            src={imageUrl}
                             onLoad={() => this.setState({isImageLoading: false})}
                         />
                     )}
+
+                    <div class="table-responsive">
+                        <table className="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Trait</th>
+                                    <th scope="col">Value</th>
+                                    <th scope="col">Rarity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.state.traits.map((trait, i) => {
+                                    return (
+                                        <tr>
+                                            <th scope="row">{trait['n']}</th>
+                                            <td>{trait['v']}</td>
+                                            <td>{Number(trait['p']).toFixed(2)}%</td>
+                                        </tr>
+                                    )
+                                })}
+                                
+                            </tbody>
+                        </table>
+                    </div>
+
 
                 </div>
             </main>
