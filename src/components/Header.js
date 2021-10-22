@@ -7,6 +7,7 @@ import {
     NavLink,
     Redirect
   } from "react-router-dom";
+  import axios from 'axios';
 
 class Header extends React.Component {
 
@@ -14,6 +15,9 @@ class Header extends React.Component {
         super(props);
 
         this.onCheckcheckActiveIdClicked = this.checkActive.bind(this);
+        this.checkPrice = this.checkPrice.bind(this);
+
+        this.state = {solPrice: 170.0}
     }
 
     checkActive(match, location){
@@ -21,6 +25,23 @@ class Header extends React.Component {
         if(!location) return false;
         const {pathname} = location;
         return pathname === "/";
+    }
+
+    checkPrice(){
+        axios.get('https://api.binance.com/api/v3/avgPrice?symbol=SOLUSDT').then(results => {
+            this.setState({
+                solPrice: Number(results.data.price).toFixed(1),
+            });
+        });
+    }
+
+    componentDidMount() {
+        this.checkPrice();
+        this.interval = setInterval(this.checkPrice, 15000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
     }
 
     render() {
@@ -41,11 +62,10 @@ class Header extends React.Component {
                 <li><NavLink to="/about" className="nav-link px-2 link-dark py-0" activeStyle={{fontWeight: "bold", textDecoration: "underline"}}>About</NavLink></li>
             </ul>
     
-            <div className="col-md-3 text-end twitter-align">
-                {/* <a href="https://twitter.com/sol_tracker" target="_blank">
-                    <img src={require('../img/twitter.png').default} width="30px"/>
-                </a> */}
-                <a href="https://twitter.com/sol_tracker?ref_src=twsrc%5Etfw" className="twitter-follow-button" data-size="large" data-show-screen-name="false" data-show-count="false">Follow @sol_tracker</a>
+            <div className="col-md-3 text-end">
+                <div className="sol_price"><strong><span className="active_dot rounded-circle"></span>SOL ${this.state.solPrice}</strong></div>
+                <span className="twitter-align"><a href="https://twitter.com/sol_tracker?ref_src=twsrc%5Etfw" className="twitter-follow-button" data-size="large" data-show-screen-name="false" data-show-count="false">Follow @sol_tracker</a>
+                </span>
             {/* <button type="button" className="btn btn-outline-primary me-2">Login</button>
                 <button type="button" className="btn btn-primary">Sign-up</button> */}
             </div>
