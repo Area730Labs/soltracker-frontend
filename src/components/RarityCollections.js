@@ -75,7 +75,7 @@ class RarityCollections extends React.Component {
 
                     {filteredCollections.map((collection, i) => {
                         return (
-                            <CollectionButton name={collection.name} slug={collection.slug} id={collection.id} key={collection.slug} url={collection.icon_url} />
+                            <CollectionButton key={`3_${collection.id}`} name={collection.name} slug={collection.slug} id={collection.id}  url={collection.icon_url} />
                         )
                     })}
 
@@ -85,7 +85,7 @@ class RarityCollections extends React.Component {
             {collections.map((collection, i) => {
                 return (
                     <Route exact path={'/rarity/' + collection.slug}>
-                        <RarityCheck key={collection.id}  collection_id={collection.id} collection_name={collection.name} collection_slug={collection.slug} total_count={collection.count} icon_url={collection.icon_url} website={collection.website} twitter={collection.twitter} discord={collection.discord} markets={collection.markets}  />
+                        <RarityCheck key={`1_${collection.slug}`}  collection_id={collection.id} collection_name={collection.name} collection_slug={collection.slug} total_count={collection.count} icon_url={collection.icon_url} website={collection.website} twitter={collection.twitter} discord={collection.discord} markets={collection.markets}  />
                     </Route>
                 )
             })}
@@ -93,7 +93,7 @@ class RarityCollections extends React.Component {
             {collections.map((collection, i) => {
                 return (
                     <Route exact path={'/c/' + collection.slug}>
-                        <RarityCheck key={collection.id}  collection_id={collection.id} collection_name={collection.name} collection_slug={collection.slug} total_count={collection.count} icon_url={collection.icon_url} website={collection.website} twitter={collection.twitter} discord={collection.discord} markets={collection.markets}  />
+                        <RarityCheck key={`2_${collection.id}`}  collection_id={collection.id} collection_name={collection.name} collection_slug={collection.slug} total_count={collection.count} icon_url={collection.icon_url} website={collection.website} twitter={collection.twitter} discord={collection.discord} markets={collection.markets}  />
                     </Route>
                 )
             })}
