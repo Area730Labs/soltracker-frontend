@@ -210,7 +210,7 @@ class RarityCheck extends React.Component {
                     {/* ======== MARKETS LINE 1 ======== */}
                     <div className="btn-group btn-group-sm text-center w-100 d-block mt-2 mb-1" >
                         {part_1.map((market, i) => {
-                            return (<span className="pr-1 px-1"><img width="22px" src={require('../img/icons/tag.png').default} /><a href={market.url} target="_blank" className="link-primary">{market.name}</a></span>)
+                            return (<span  key={'1_' + i} className="pr-1 px-1"><img width="22px" src={require('../img/icons/tag.png').default} /><a href={market.url} target="_blank" className="link-primary">{market.name}</a></span>)
                         })}
                     </div>
 
@@ -218,7 +218,7 @@ class RarityCheck extends React.Component {
                     {part_2.length > 0 && (
                         <div className="btn-group btn-group-sm text-center  w-100 d-block mb-1" >
                             {part_2.map((market, i) => {
-                                return (<span className="pr-1 px-1"><img width="22px" src={require('../img/icons/tag.png').default} /><a href={market.url} target="_blank" className="link-primary">{market.name}</a></span>)
+                                return (<span key={'2_' + i} className="pr-1 px-1"><img width="22px" src={require('../img/icons/tag.png').default} /><a href={market.url} target="_blank" className="link-primary">{market.name}</a></span>)
                             })}
                         </div>
                     )}

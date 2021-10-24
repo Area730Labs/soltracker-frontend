@@ -20,7 +20,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {collections: []};
+    this.state = {collections: [], upcoming_collections: []};
   }
 
 
@@ -28,9 +28,11 @@ class App extends React.Component {
     this.initReactGA();
 
     try {
-      const response = await API.get(`get_collections`);
+      const collections = await API.get(`get_collections`);
+      this.setState({collections: collections.data});
 
-      this.setState({collections: response.data});
+      const new_collections = await API.get(`get_upcoming_collections`);
+      this.setState({upcoming_collections: new_collections.data});
 
     } catch (err) {
       
@@ -60,19 +62,20 @@ class App extends React.Component {
             <Redirect exact from="/" to="/rarity" />
 
             <Route path="/rarity/">
-              <RarityCollections collections={this.state.collections}/>
+              <RarityCollections key="general_rarity" collections={this.state.collections}/>
             </Route>
 
             <Route path="/c/">
-              <RarityCollections collections={this.state.collections}/>
+              <RarityCollections key="shortlink_rarity" collections={this.state.collections}/>
             </Route>
+
 
             <Route path="/about">
               <About />
             </Route>
 
-            <Route path="/upcoming-mints">
-              <UpcomingMints />
+            <Route path="/upcoming">
+              <UpcomingMints collections={this.state.upcoming_collections}/>
             </Route>
 
             <Route path="/faq">
