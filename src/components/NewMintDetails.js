@@ -56,7 +56,7 @@ class NewMintDetails extends React.Component {
       updateTimer(){
         const today = new Date()
 
-        if (this.mintDate > today){
+        if (!this.props.date_tba && this.mintDate > today){
             const timeLeft = this.mintDate.getTime() - today.getTime()
 
             // if more than 24 hours left - show date
@@ -144,11 +144,13 @@ class NewMintDetails extends React.Component {
                         </div>
                     )}
 
-                    {this.state.timerRunning && this.state.isToday && (<p className="mt-3 mb-3"><span className="h4">Mint in: <strong>{this.state.timerLabel}</strong></span></p>)}
+                    {!this.props.date_tba && this.state.timerRunning && this.state.isToday && (<p className="mt-3 mb-3"><span className="h4">Mint in: <strong>{this.state.timerLabel}</strong></span></p>)}
                     
                     {this.state.timerRunning && !this.state.isToday && (<p className="mt-3 mb-3"><span className="h4"><strong>{this.state.timerLabel}</strong></span></p>)}
 
-                    {!this.state.timerRunning && (<p className="mt-3 mb-3"><span className="h4 text-success"><strong>Mint is Live!</strong></span></p>)}
+                    {!this.props.date_tba && !this.state.timerRunning && (<p className="mt-3 mb-3"><span className="h4 text-success"><strong>Mint is Live!</strong></span></p>)}
+
+                    {this.props.date_tba && (<p className="mt-3 mb-3"><span className="h4"><strong>Mint date TBA</strong></span></p>)}
 
                  
                     {/* ======== MINT BTN ====== */}

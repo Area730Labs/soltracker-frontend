@@ -60,7 +60,7 @@ class UpcomingMintButton extends React.Component {
     updateTimer(){
         const today = new Date()
 
-        if (this.mintDate > today){
+        if (!this.props.date_tba && this.mintDate > today){
             const timeLeft = this.mintDate.getTime() - today.getTime()
 
             // if more than 24 hours left - show date
@@ -105,7 +105,18 @@ class UpcomingMintButton extends React.Component {
                     
                     <img className="rounded-circle mr-4" src={this.props.url} width="50px" height="50px"/>
                     <span className="d-block align-middle m-2 lh-35 h5 pl-2">{name}</span>
-                    <div className={`d-block align-middle lh-35 h5 pl-2 collection_btn_align my-2 ` + (this.state.timerRunning ? '':'text-success')}>{this.state.timerLabel}</div>
+
+                    {!this.props.date_tba && (
+                        <div className={`d-block align-middle lh-35 h5 pl-2 collection_btn_align my-2 ` + (this.state.timerRunning ? '':'text-success')}>{this.state.timerLabel}</div>
+                    )}
+
+                    {this.props.date_tba && (
+                        <div className='d-block align-middle lh-35 h5 pl-2 collection_btn_align my-2'>TBA</div>
+                    )}
+
+                    {this.props.is_game && (
+                        <div className='d-block align-middle lh-35 h5 pl-2 my-2 collection_game_icon'><img className="mr-4" src={require('../img/icons/game-control.png').default} width="30px" height="30px"/></div>
+                    )}
                     
                 </div>
                 
