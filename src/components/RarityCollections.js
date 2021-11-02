@@ -62,12 +62,18 @@ class RarityCollections extends React.Component {
         const collections = this.props.collections;
         const filteredCollections = this.filterCollections(collections, this.state.query);
 
+        let normalized_floor = {}
+
+        let floor_data = this.props.floors;
+        
+        
+
       return (
 
         <Switch>
 
             <Route exact path="/rarity/">
-                <div className="list-group list-group-checkable p-2 mt-4">
+                <div className="list-group-updated list-group-checkable p-2 mt-4">
 
                     <div className="mb-2 card card-body p-2 d-flex">
                         <input type="text" className="form-control bg-light border-0" placeholder="Search" onChange={this.handleChange} value={this.state.query}   />
@@ -75,7 +81,7 @@ class RarityCollections extends React.Component {
 
                     {filteredCollections.map((collection, i) => {
                         return (
-                            <CollectionButton key={`3_${collection.id}`} name={collection.name} slug={collection.slug} id={collection.id}  url={collection.icon_url} />
+                            <CollectionButton key={`3_${collection.id}`} name={collection.name} slug={collection.slug} id={collection.id}  url={collection.icon_url} floor={floor_data[collection.id]}/>
                         )
                     })}
 
