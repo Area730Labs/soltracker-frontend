@@ -20,7 +20,9 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {collections: [], upcoming_collections: []};
+    this.checkFloors = this.checkFloors.bind(this);
+
+    this.state = {collections: [], upcoming_collections: [], floors: [], floor_interval_id: null};
   }
 
 
@@ -34,9 +36,21 @@ class App extends React.Component {
       const new_collections = await API.get(`get_upcoming_collections`);
       this.setState({upcoming_collections: new_collections.data});
 
+      const floors = await API.get(`get_floors`);
+      this.setState({floors: floors.data, floor_interval_id: setInterval(this.checkFloors, 300000)});
+
     } catch (err) {
       
     }
+  }
+
+  async checkFloors(){
+    const floors = await API.get(`get_floors`);
+    this.setState({floors: floors.data});
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.floor_interval_id);
   }
 
   initReactGA() {
@@ -62,11 +76,11 @@ class App extends React.Component {
             <Redirect exact from="/" to="/rarity" />
 
             <Route path="/rarity/">
-              <RarityCollections key="general_rarity" collections={this.state.collections}/>
+              <RarityCollections key="general_rarity" collections={this.state.collections} floors={this.state.floors}/>
             </Route>
 
             <Route path="/c/">
-              <RarityCollections key="shortlink_rarity" collections={this.state.collections}/>
+              <RarityCollections key="shortlink_rarity" collections={this.state.collections} floors={this.state.floors}/>
             </Route>
 
 
