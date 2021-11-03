@@ -37,7 +37,7 @@ class App extends React.Component {
       this.setState({upcoming_collections: new_collections.data});
 
       const floors = await API.get(`get_floors`);
-      this.setState({floors: floors.data, floor_interval_id: setInterval(this.checkFloors, 600000)});
+      this.setState({floors: floors.data, floor_interval_id: setInterval(this.checkFloors, 300000)});
 
     } catch (err) {
       

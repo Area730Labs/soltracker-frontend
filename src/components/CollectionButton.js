@@ -32,7 +32,7 @@ class CollectionButton extends React.Component {
                 <span className="d-block align-middle m-2 lh-35 h5 pl-2">{name}</span>
 
                 {this.props.floor && (
-                    <div className='d-block align-middle lh-35 h7 pl-2 collection_btn_align my-2'><strong>Floor: <span className={this.props.floor['bull']?'text-success':'text-danger'}>{this.props.floor['floor']}</span> </strong></div>
+                    <div className='d-block align-middle lh-35 h7 pl-2 collection_btn_align my-2'><strong>Floor: <span className={this.props.floor['bull']?'text-success':'text-danger'}>{this.props.floor['floor']}</span> <span class="active_dot rounded-circle"></span> </strong></div>
                 )}
                 
 
