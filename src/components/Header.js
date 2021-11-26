@@ -57,6 +57,8 @@ class Header extends React.Component {
     
             <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                 <li><NavLink to="/" className="nav-link px-2 link-dark py-0" isActive={this.checkActive} activeStyle={{fontWeight: "bold", textDecoration: "underline"}}>Home</NavLink></li>
+                <li><NavLink to="/bots" className="nav-link px-2 link-dark py-0" activeStyle={{fontWeight: "bold", textDecoration: "underline"}}>Sales Bots</NavLink></li>
+                
                 <li><a href="https://escrow.soltracker.io" className="nav-link px-2 link-dark py-0"><strong>Escrow</strong></a></li>
                 
                 <li><NavLink to="/rarity" className="nav-link px-2 link-dark py-0" activeStyle={{fontWeight: "bold", textDecoration: "underline"}}>Rarity</NavLink></li>
