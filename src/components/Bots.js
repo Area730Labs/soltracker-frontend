@@ -31,7 +31,7 @@ class Bots extends React.Component {
                         In Discord it looks like this:
                     </div>
 
-                    <center><img className="rounded" src={require('../img/bots/discord_message_example.png').default} width="350px"/></center>
+                    <center><img className="rounded bots_page_discord_sample" src={require('../img/bots/discord_message_example.png').default}/></center>
                     
                     <div className="pb-3 mb-0 lh-sm h6 mt-3 pb-4 text-black">
                         <strong>Listing Bot</strong> -  similar to Sales bots, but notifies the community about new NFT listings. 
