@@ -64,7 +64,7 @@ class Header extends React.Component {
                 <li><NavLink to="/rarity" className="nav-link px-2 link-dark py-0" activeStyle={{fontWeight: "bold", textDecoration: "underline"}}>Rarity</NavLink></li>
                 <li><NavLink to="/upcoming" className="nav-link px-2 link-dark text-danger py-0" activeStyle={{fontWeight: "bold", textDecoration: "underline"}}>🔥Upcoming mints🔥</NavLink></li>
                 {/* <li><NavLink to="/about" className="nav-link px-2 link-dark py-0" activeStyle={{fontWeight: "bold", textDecoration: "underline"}}>About</NavLink></li> */}
-                <li><a href="https://docs.soltracker.io" className="nav-link px-2 link-dark py-0"><strong>Docs</strong></a></li>
+                <li><a href="https://docs.soltracker.io" className="nav-link px-2 link-dark py-0">Docs</a></li>
             </ul>
     
             <div className="col-md-3 text-end">
